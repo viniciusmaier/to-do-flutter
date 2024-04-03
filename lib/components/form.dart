@@ -24,6 +24,7 @@ class FormPage extends StatefulWidget {
 
 class FormStates extends State<FormPage> {
   // ignore: non_constant_identifier_names
+  final formKey = GlobalKey<FormState>();
   TextEditingController? ds_tarefa = TextEditingController();
   TextEditingController? name_tarefa = TextEditingController();
   TextEditingController? editDsTarefa = TextEditingController();
@@ -61,25 +62,40 @@ class FormStates extends State<FormPage> {
           width: 700,
           height: 700,
           child: Form(
+            key: formKey,
             child: Column(
               children: [
                 Column(
                   children: [
                     TextFormField(
                         decoration: const InputDecoration(labelText: 'TAREFA'),
-                        controller: name_tarefa),
+                        controller: name_tarefa,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "POR FAVOR ADICIONAR O TITULO DA TAREFA";
+                          }
+                          return null;
+                        }),
                     TextFormField(
                         decoration:
                             const InputDecoration(labelText: 'DESCRIÇÃO'),
-                        controller: ds_tarefa),
+                        controller: ds_tarefa,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "POR FAVOR ADICIONAR O DESCRICAO DA TAREFA";
+                          }
+                          return null;
+                        }),
                     const SizedBox(height: 20),
                     Row(
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              addElement(ds_tarefa!.text, name_tarefa!.text);
-                              ds_tarefa = TextEditingController();
-                              name_tarefa = TextEditingController();
+                              if (formKey.currentState!.validate()) {
+                                addElement(ds_tarefa!.text, name_tarefa!.text);
+                                ds_tarefa = TextEditingController();
+                                name_tarefa = TextEditingController();
+                              }
                             },
                             child: const Text('CADASTRAR')),
                         const SizedBox(width: 10),
