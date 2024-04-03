@@ -1,5 +1,5 @@
-// ignore_for_file: non_constant_identifier_names
-
+// ignore_for_file: non_constant_identifier_names, avoid_print
+// ignore: non_constant_identifier_names
 import 'dart:js_util';
 
 import 'package:flutter/material.dart';
@@ -12,7 +12,6 @@ class Tarefa {
   Tarefa(int this.id, String this.ds_tarefa, String this.name_tarefa);
 }
 
-// ignore: non_constant_identifier_names
 List<Tarefa> list_tarefa = <Tarefa>[];
 
 class FormPage extends StatefulWidget {
@@ -23,7 +22,6 @@ class FormPage extends StatefulWidget {
 }
 
 class FormStates extends State<FormPage> {
-  // ignore: non_constant_identifier_names
   final formKey = GlobalKey<FormState>();
   TextEditingController? ds_tarefa = TextEditingController();
   TextEditingController? name_tarefa = TextEditingController();
@@ -118,7 +116,13 @@ class FormStates extends State<FormPage> {
                           Text(list_tarefa[index].name_tarefa),
                           const SizedBox(width: 40),
                           const Text('DESCRICAO : '),
-                          Text(list_tarefa[index].ds_tarefa),
+                          Container(
+                              width: 200,
+                              child: Text(
+                                list_tarefa[index].ds_tarefa,
+                                overflow: TextOverflow.fade,
+                                maxLines: 5,
+                              )),
                           const SizedBox(width: 40),
                           IconButton(
                               onPressed: () => removeElement(index),
