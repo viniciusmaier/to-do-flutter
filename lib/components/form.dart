@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:js_util';
 
 import 'package:flutter/material.dart';
@@ -21,14 +23,15 @@ class FormPage extends StatefulWidget {
 }
 
 class FormStates extends State<FormPage> {
-  TextEditingController? ds_tarefa = new TextEditingController();
-  TextEditingController? name_tarefa = new TextEditingController();
-  TextEditingController? editDsTarefa = new TextEditingController();
-  TextEditingController? editNameTarefa = new TextEditingController();
+  // ignore: non_constant_identifier_names
+  TextEditingController? ds_tarefa = TextEditingController();
+  TextEditingController? name_tarefa = TextEditingController();
+  TextEditingController? editDsTarefa = TextEditingController();
+  TextEditingController? editNameTarefa = TextEditingController();
 
   void addElement(String ds_tarefa, String name_tarefa) {
     var count = list_tarefa.length;
-    list_tarefa.add(new Tarefa(count, ds_tarefa, name_tarefa));
+    list_tarefa.add(Tarefa(count, ds_tarefa, name_tarefa));
     setState(() {});
   }
 
@@ -40,8 +43,13 @@ class FormStates extends State<FormPage> {
 
   void editElement(int index, String editName, String editDescricao) {
     setState(() {
-      list_tarefa[index].ds_tarefa = editName;
-      list_tarefa[index].name_tarefa = editDescricao;
+      editDescricao.isNotEmpty
+          ? list_tarefa[index].ds_tarefa = editDescricao
+          : print(editDescricao);
+
+      editName.isNotEmpty
+          ? list_tarefa[index].name_tarefa = editName
+          : print(editName);
     });
   }
 
@@ -61,17 +69,22 @@ class FormStates extends State<FormPage> {
                         decoration: const InputDecoration(labelText: 'TAREFA'),
                         controller: name_tarefa),
                     TextFormField(
-                      decoration: const InputDecoration(labelText: 'DESCRIÇÃO'),
-                      controller: ds_tarefa,
-                    ),
-                    SizedBox(height: 20),
-                    Row(children: [
-                      ElevatedButton(
-                          onPressed: () =>
-                              {addElement(ds_tarefa!.text, name_tarefa!.text)},
-                          child: Text('CADASTRAR')),
-                      SizedBox(width: 10),
-                    ])
+                        decoration:
+                            const InputDecoration(labelText: 'DESCRIÇÃO'),
+                        controller: ds_tarefa),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              addElement(ds_tarefa!.text, name_tarefa!.text);
+                              ds_tarefa = TextEditingController();
+                              name_tarefa = TextEditingController();
+                            },
+                            child: const Text('CADASTRAR')),
+                        const SizedBox(width: 10),
+                      ],
+                    )
                   ],
                 ),
                 const SizedBox(height: 200),
@@ -82,15 +95,15 @@ class FormStates extends State<FormPage> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Row(children: [
-                          Text('ID : '),
+                          const Text('ID : '),
                           Text(list_tarefa[index].id.toString()),
-                          SizedBox(width: 40),
-                          Text('TITULO : '),
+                          const SizedBox(width: 40),
+                          const Text('TITULO : '),
                           Text(list_tarefa[index].name_tarefa),
-                          SizedBox(width: 40),
-                          Text('DESCRICAO : '),
+                          const SizedBox(width: 40),
+                          const Text('DESCRICAO : '),
                           Text(list_tarefa[index].ds_tarefa),
-                          SizedBox(width: 40),
+                          const SizedBox(width: 40),
                           IconButton(
                               onPressed: () => removeElement(index),
                               icon: const Icon(
@@ -124,20 +137,23 @@ class FormStates extends State<FormPage> {
                                                 child: Form(
                                                   child: Column(
                                                     children: [
-                                                      Text(list_tarefa[index]
-                                                          .name_tarefa),
+                                                      const Text('TITULO'),
+                                                      Text(
+                                                          'TITULO ANTIGO : ${list_tarefa[index].name_tarefa}'),
                                                       TextFormField(
-                                                          controller:
-                                                              editNameTarefa),
+                                                        controller:
+                                                            editDsTarefa,
+                                                      ),
                                                       const Padding(
                                                           padding: EdgeInsets
                                                               .fromLTRB(
                                                                   0, 0, 0, 50)),
-                                                      Text(list_tarefa[index]
-                                                          .ds_tarefa),
+                                                      const Text('DESCRICAO'),
+                                                      Text(
+                                                          'DESCRICAO ANTIGA: ${list_tarefa[index].ds_tarefa}'),
                                                       TextFormField(
                                                         controller:
-                                                            editDsTarefa,
+                                                            editNameTarefa,
                                                       ),
                                                       const SizedBox(
                                                           height: 20),
@@ -173,7 +189,7 @@ class FormStates extends State<FormPage> {
                                       ),
                                     )
                                   },
-                              icon: Icon(Icons.edit_sharp)),
+                              icon: const Icon(Icons.edit_sharp)),
                         ]),
                       );
                     },
