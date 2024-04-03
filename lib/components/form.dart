@@ -4,6 +4,7 @@ import 'dart:js_util';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:teste/util/modal/EdicaoTarefa.dart';
 
 class Tarefa {
   final int id;
@@ -108,109 +109,41 @@ class FormStates extends State<FormPage> {
                     itemCount: list_tarefa.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Row(children: [
-                          const Text('ID : '),
-                          Text(list_tarefa[index].id.toString()),
-                          const SizedBox(width: 40),
-                          const Text('TITULO : '),
-                          Text(list_tarefa[index].name_tarefa),
-                          const SizedBox(width: 40),
-                          const Text('DESCRICAO : '),
-                          Container(
-                              width: 200,
-                              child: Text(
-                                list_tarefa[index].ds_tarefa,
-                                overflow: TextOverflow.fade,
-                                maxLines: 5,
-                              )),
-                          const SizedBox(width: 40),
-                          IconButton(
-                              onPressed: () => removeElement(index),
-                              icon: const Icon(
-                                  Icons.restore_from_trash_outlined)),
-                          IconButton(
-                              onPressed: () async => {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        content: SizedBox(
-                                          width: 600,
-                                          height: 400,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Positioned(
-                                                //height: 100,
-                                                right: 1,
-                                                child: TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(),
-                                                  child: const Icon(
-                                                      Icons.exit_to_app),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                child: Form(
-                                                  child: Column(
-                                                    children: [
-                                                      const Text('TITULO'),
-                                                      Text(
-                                                          'TITULO ANTIGO : ${list_tarefa[index].name_tarefa}'),
-                                                      TextFormField(
-                                                        controller:
-                                                            editDsTarefa,
-                                                      ),
-                                                      const Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0, 0, 0, 50)),
-                                                      const Text('DESCRICAO'),
-                                                      Text(
-                                                          'DESCRICAO ANTIGA: ${list_tarefa[index].ds_tarefa}'),
-                                                      TextFormField(
-                                                        controller:
-                                                            editNameTarefa,
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 20),
-                                                      Row(children: [
-                                                        ElevatedButton(
-                                                            onPressed: () => {
-                                                                  editElement(
-                                                                    index,
-                                                                    editDsTarefa!
-                                                                        .text,
-                                                                    editNameTarefa!
-                                                                        .text,
-                                                                  ),
-                                                                  Navigator.pop(
-                                                                      context),
-                                                                  editDsTarefa =
-                                                                      '' as TextEditingController?,
-                                                                  editNameTarefa =
-                                                                      '' as TextEditingController?
-                                                                },
-                                                            child: const Text(
-                                                                'EDITAR')),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                      ])
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  },
-                              icon: const Icon(Icons.edit_sharp)),
-                        ]),
+                        title: Container(
+                            width: 200,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 148, 119, 250),
+                                border: Border.all(width: 2)),
+                            child: Row(children: [
+                              const Text('ID : '),
+                              Text(list_tarefa[index].id.toString()),
+                              const SizedBox(width: 40),
+                              const Text('TITULO : '),
+                              Text(list_tarefa[index].name_tarefa),
+                              const SizedBox(width: 40),
+                              const Text('DESCRICAO : '),
+                              SizedBox(
+                                  width: 150,
+                                  child: Text(
+                                    list_tarefa[index].ds_tarefa,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 5,
+                                  )),
+                              const SizedBox(width: 40),
+                              IconButton(
+                                  onPressed: () => removeElement(index),
+                                  icon: const Icon(
+                                      Icons.restore_from_trash_outlined)),
+                              IconButton(
+                                  onPressed: () async => await modalEdicao(
+                                      index,
+                                      editNameTarefa,
+                                      editDsTarefa,
+                                      list_tarefa,
+                                      context,
+                                      editElement),
+                                  icon: const Icon(Icons.edit_sharp)),
+                            ])),
                       );
                     },
                   ),
