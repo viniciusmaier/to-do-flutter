@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print
 // ignore: non_constant_identifier_names
-import 'dart:js_util';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -58,13 +57,14 @@ class FormStates extends State<FormPage> {
     return Scaffold(
       body: Center(
         child: SizedBox(
-          width: 700,
+          width: 1200,
           height: 700,
           child: Form(
             key: formKey,
             child: Column(
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TextFormField(
                         decoration: const InputDecoration(labelText: 'TAREFA'),
@@ -109,11 +109,10 @@ class FormStates extends State<FormPage> {
                     itemCount: list_tarefa.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 148, 119, 250),
-                                border: Border.all(width: 2)),
+                        title: Center(child:  Container(
+                            width: 1200,
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(188, 240, 237, 253),),
                             child: Row(children: [
                               const Text('ID : '),
                               Text(list_tarefa[index].id.toString()),
@@ -143,7 +142,7 @@ class FormStates extends State<FormPage> {
                                       context,
                                       editElement),
                                   icon: const Icon(Icons.edit_sharp)),
-                            ])),
+                            ]))),
                       );
                     },
                   ),
